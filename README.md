@@ -1,4 +1,4 @@
-# Trabalho de Grupo de Processo e Recuperaçção de Informação
+# Trabalho de Grupo de Processamento e Recuperaçção de Informação
 
 ## Autores:
 ```

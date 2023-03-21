@@ -1,6 +1,6 @@
-# Trabalho de Grupo de Processamento e Recuperaçção de Informação
+# Trabalho de Grupo de Processamento e Recuperação de Informação
 
-## Autores:
+### Autores:
 ```
 A87240 Ciarán John Tavares McEvoy
 PG50392 Gonçalo Afonso de Carvalho

@@ -1,4 +1,4 @@
-package trabalho_grupo;
+package classes;
 
 import java.util.*;
 import javafx.util.Pair;

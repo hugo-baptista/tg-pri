@@ -6,16 +6,7 @@ function App() {
       <Navbar/>
       <center>
         <header className="App-header">
-          <p>Trabalho aqui</p>
-          <button style={{
-            height:"600px",
-            width:"1000px",
-            backgroundColor:"pink",
-            fontStyle:"oblique",
-            fontSize:"50px",
-            borderColor:"purple",
-            textDecorationColor:"purple"
-          }}>Butón májico</button>
+          <i>placeholder</i>
         </header>
       </center>
     </div>

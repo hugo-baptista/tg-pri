@@ -11,8 +11,10 @@ function App() {
   return (
     <div className="App">
         <Routes>
+        <Route path="/termo" element={<TermoPesquisa/>} />
+        <Route path="/questao" element={<QuestaoPesquisa />} />
       <Route path="/" element={<Home />}>
-        <Route exact path="/termo" component={TermoPesquisa} />
+        <Route path="/termo" element={<TermoPesquisa/>} />
         <Route path="/questao" element={<QuestaoPesquisa />} />
         </Route>
         </Routes>

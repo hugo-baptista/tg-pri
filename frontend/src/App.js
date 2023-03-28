@@ -10,12 +10,11 @@ import QuestaoPesquisa from './QuestaoPesquisa';
 function App() {
   return (
     <div className="App">
+      <Navbar></Navbar>
         <Routes>
         <Route path="/termo" element={<TermoPesquisa/>} />
         <Route path="/questao" element={<QuestaoPesquisa />} />
-      <Route path="/" element={<Home />}>
-        <Route path="/termo" element={<TermoPesquisa/>} />
-        <Route path="/questao" element={<QuestaoPesquisa />} />
+        <Route path="/" element={<Home />}>
         </Route>
         </Routes>
     </div>

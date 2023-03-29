@@ -53,6 +53,7 @@ public class PostingList {
     public String toJSON() {
         String json = new String();
         Integer i = 0;
+        Integer i_max = this.posting_list.size();
         for (Pair<Integer,ArrayList<Integer>> doc : this.posting_list ) {
             json = json + "\t\t{\n";
             int docID = doc.getKey();
@@ -60,7 +61,7 @@ public class PostingList {
             json = json + "\t\t\"docid\" : " + docID + ",\n";
             json = json + "\t\t\"postions\" : " + positions + "\n";
             i++;
-            if(i==this.posting_list.size()){
+            if(i==i_max){
                 json = json + "\t\t}\n";
             } else {
                 json = json + "\t\t},\n";

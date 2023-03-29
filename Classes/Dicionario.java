@@ -47,6 +47,7 @@ public class Dicionario {
     public String toJSON() {
         String json = new String("[\n");
         Integer i = 0;
+        Integer i_max = dicionario.keySet().size();
         for (HashMap.Entry<String,Pair<Integer,PostingList>> entry : dicionario.entrySet()) {
             json = json + "\t{\n";
             String term = entry.getKey();
@@ -58,7 +59,7 @@ public class Dicionario {
             json = json + posting_list.toJSON();
             json = json + "\t]\n";
             i++;
-            if(i==dicionario.keySet().size()){
+            if(i==i_max){
                 json = json + "\t}\n";
             } else {
                 json = json + "\t},\n";

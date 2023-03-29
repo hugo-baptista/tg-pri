@@ -1,67 +1,60 @@
 package classes;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.util.Pair;
 
 public class Dicionario {
-    // dicionário de termos - < Termo: < Frequência, < PostingList: DocID,PositionList > > >
-    private HashMap<String,Pair<Integer,ArrayList<Pair<Integer,ArrayList<Integer>>>>> dicionario;
-
-    //constructores
-    public Dicionario (HashMap<String,Pair<Integer,ArrayList<Pair<Integer,ArrayList<Integer>>>>> dic) {
+    // dicionário de termos - < Termo: < Frequência, PostingList > >
+    private HashMap<String,Pair<Integer,PostingList>> dicionario;
+    
+    // construtores
+    public Dicionario () {
+        HashMap<String,Pair<Integer,PostingList>> dic = new HashMap<>();
         this.dicionario = dic;
     }
 
-    public Dicionario (String termo, Integer freq, ArrayList<Pair<Integer,ArrayList<Integer>>> postinglist) {
-        Pair<Integer,ArrayList<Pair<Integer,ArrayList<Integer>>>> value = new Pair<>(freq, postinglist);
-        HashMap<String,Pair<Integer,ArrayList<Pair<Integer,ArrayList<Integer>>>>> dic = new HashMap<>();
+    public Dicionario (HashMap<String,Pair<Integer,PostingList>> dic) {
+        this.dicionario = dic;
+    }
+    
+    public Dicionario (String termo, Integer freq, PostingList postinglist) {
+        Pair<Integer,PostingList> value = new Pair<>(freq, postinglist);
+        HashMap<String,Pair<Integer,PostingList>> dic = new HashMap<>();
         dic.put(termo, value);
         this.dicionario = dic;
     }
 
-    public void add(String termo, Integer freq, ArrayList<Pair<Integer,ArrayList<Integer>>> postinglist) {
-        Pair<Integer,ArrayList<Pair<Integer,ArrayList<Integer>>>> value = new Pair<>(freq, postinglist);
+    // métodos
+    public void add_term(String termo, PostingList postinglist) {
+        Integer freq = postinglist.size();
+        Pair<Integer,PostingList> value = new Pair<>(freq, postinglist);
         this.dicionario.put(termo, value);
     }
 
     @Override
     public String toString() {
-        // return this.dicionario.toString();
-        
-        String dict = new String("Dicionario:\n");
-        for (HashMap.Entry<String,Pair<Integer,ArrayList<Pair<Integer,ArrayList<Integer>>>>> entry : dicionario.entrySet()) {
+        String dictionary_string = new String("Dicionario:\n");
+        for (HashMap.Entry<String,Pair<Integer,PostingList>> entry : dicionario.entrySet()) {
             String term = entry.getKey();
             int freq = entry.getValue().getKey();
-            dict = (dict + term + ":" + freq + ":\n");
-            ArrayList<Pair<Integer,ArrayList<Integer>>> docs = entry.getValue().getValue();
-            for (Pair<Integer,ArrayList<Integer>> doc : docs ) {
-                int docID = doc.getKey();
-                ArrayList<Integer> positions = doc.getValue();
-                dict = (dict + docID + ":" + positions + "\n");
-            }
+            dictionary_string = (dictionary_string + "Term: " + term + "\nDocument Frequency: " + freq + "\n");
+            PostingList posting_list = entry.getValue().getValue();
+            dictionary_string = (dictionary_string + posting_list.toString());
         } 
-        return dict;
+        return dictionary_string;
     }
     
     public String toJSON() {
         String json = new String("[\n");
-        for (HashMap.Entry<String,Pair<Integer,ArrayList<Pair<Integer,ArrayList<Integer>>>>> entry : dicionario.entrySet()) {
+        for (HashMap.Entry<String,Pair<Integer,PostingList>> entry : dicionario.entrySet()) {
             json = json + "\t{\n";
             String term = entry.getKey();
             int freq = entry.getValue().getKey();
             json = json + "\t\"term\" : \"" + term + "\",\n";
             json = json + "\t\"document_frequency\" : " + freq + ",\n";
             json = json + "\t\"posting_list\" : [\n";
-            ArrayList<Pair<Integer,ArrayList<Integer>>> docs = entry.getValue().getValue();
-            for (Pair<Integer,ArrayList<Integer>> doc : docs ) {
-                json = json + "\t\t{\n";
-                int docID = doc.getKey();
-                ArrayList<Integer> positions = doc.getValue();
-                json = json + "\t\t\"docid\" : " + docID + ",\n";
-                json = json + "\t\t\"postions\" : " + positions + "\n";
-                json = json + "\t\t},\n";
-            }
+            PostingList posting_list = entry.getValue().getValue();
+            json = json + posting_list.toJSON();
             json = json + "\t]\n";
             json = json + "\t},\n";
         } 

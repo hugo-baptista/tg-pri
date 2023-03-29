@@ -52,13 +52,19 @@ public class PostingList {
 
     public String toJSON() {
         String json = new String();
+        Integer i = 0;
         for (Pair<Integer,ArrayList<Integer>> doc : this.posting_list ) {
             json = json + "\t\t{\n";
             int docID = doc.getKey();
             ArrayList<Integer> positions = doc.getValue();
             json = json + "\t\t\"docid\" : " + docID + ",\n";
             json = json + "\t\t\"postions\" : " + positions + "\n";
-            json = json + "\t\t},\n";
+            i++;
+            if(i==this.posting_list.size()){
+                json = json + "\t\t}\n";
+            } else {
+                json = json + "\t\t},\n";
+            }
         }
         return json;
     }

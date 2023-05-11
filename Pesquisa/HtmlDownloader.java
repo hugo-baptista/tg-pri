@@ -1,43 +1,66 @@
 package Pesquisa;
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Scanner;
-
 
 public class HtmlDownloader {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Coloque um URL para fazer download:");
+        System.out.println("Enter a URL to download:");
+
         String url = sc.nextLine();
-        String output = "output3.html";
-            try {
-                URL website = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection) website.openConnection();
-                connection.setRequestMethod("GET");
-                connection.connect();
+        String fileName = url.replaceAll("[^a-zA-Z0-9.-]", "_") + ".html"; // replace invalid characters with underscores
+        ArrayList<String> links = new ArrayList<>();
+        try {
+            URL website = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) website.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
 
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-                String inputLine;
-                StringBuilder content = new StringBuilder();
+            String inputLine;
+            StringBuilder content = new StringBuilder();
 
-                while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine + "\n");
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine + "\n");
+            }
+
+            in.close();
+            FileWriter writer = new FileWriter(fileName);
+            writer.write(content.toString());
+            writer.close();
+
+            links = LinkExtractor.extractLinks(content.toString(), url);
+            System.out.println(links.size() + " links found that match the rule.");
+
+            for (String link : links) {
+                String linkName = link.replaceAll("[^a-zA-Z0-9.-]", "_") + ".html"; // replace invalid characters with underscores
+                URL fileUrl = new URL(link);
+                HttpURLConnection fileConnection = (HttpURLConnection) fileUrl.openConnection();
+                fileConnection.setRequestMethod("GET");
+                fileConnection.connect();
+
+                BufferedInputStream bis = new BufferedInputStream(fileConnection.getInputStream());
+                FileOutputStream fos = new FileOutputStream(linkName);
+
+                byte[] buffer = new byte[1024];
+                int count = 0;
+                while ((count = bis.read(buffer, 0, 1024)) != -1) {
+                    fos.write(buffer, 0, count);
                 }
 
-                in.close();
-                FileWriter writer = new FileWriter(output);
-                writer.write(content.toString());
-                writer.close();
+                fos.close();
+                bis.close();
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("File " + linkName + " downloaded successfully.");
             }
-    }
-    }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

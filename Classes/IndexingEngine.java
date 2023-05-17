@@ -18,8 +18,8 @@ import java.io.IOException;
 
 
 public class IndexingEngine {
-    Dicionario dicionario = new Dicionario();  // HashMap dos documentos
-    // private Map<String, Integer> termMap;      // HashMap dos termos
+    Dicionario dicionario = new Dicionario();
+    ArrayList<Pair<String, Integer>> termsList = new ArrayList<Pair<String, Integer>>();
     
     // public IndexingEngine() {
     //     dicionario = new HashMap<>();
@@ -36,17 +36,28 @@ public class IndexingEngine {
         dicionario.readFromJsonFile("./database/dicionario.json");
 
         if (!dicionario.containsKey(document)) {
-            int documentId = documentMap.size() + 1;  // ID com autoincrement. !!Isto dá barraco com novas pesquisas!!
-            documentMap.put(document, documentId);
+            int documentId = dicionario.size() + 1;  // ID com autoincrement. !!Isto dá barraco com novas pesquisas!!
+            // dicionario.put(document, documentId);
             
-            // Process the terms in the document
+            // Processar os termos no documento
             String[] terms = document.split("\\s+");  // Termos são separados por espaços
-            Integer position = 1;
+            Integer position = 0;
             for (String term : terms) {
                 term = term.toLowerCase().replaceAll("[^a-zA-Z0-9]", ""); // Normalizar
                 if (!term.isEmpty()) {
                     position += 1;
                     indexTerm(term, position);
+                }
+            }
+
+            for (Pair<String, Integer> pair : termsList) {
+                if (!dicionario.containsKey(pair.getKey())) {
+                    ArrayList<Integer> pos = new ArrayList<Integer>(pair.getValue());
+                    PostingList postList = new PostingList(documentId, pos);
+                    dicionario.add_term(pair.getKey(), postList);
+                }
+                else {
+                    
                 }
             }
             
@@ -57,10 +68,8 @@ public class IndexingEngine {
     }
     
     private void indexTerm(String term, Integer position) {
-        if (!termMap.containsKey(term)) {
-            int termId = termMap.size() + 1;  // ID com autoincrement !!Isto dá barraco com novas pesquisas!!
-            termMap.put(term, termId);
-        }
+        Pair<String, Integer> newPair = new Pair<>(term, position);
+        termsList.add(newPair);
     }
     
     public static void main(String[] args) {

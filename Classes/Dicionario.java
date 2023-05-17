@@ -39,6 +39,21 @@ public class Dicionario {
         this.dicionario.put(termo, value);
     }
 
+    public PostingList getPostingList(String term) {
+        
+        return postList;
+    }
+
+    public ArrayList<Integer> getPositionsList(String term, Integer docId) {
+
+        return posList;
+    }
+
+    public void updatePositionsList(String term, Integer docId, Integer pos) {
+
+    }
+
+
     @Override
     public String toString() {
         String dictionary_string = new String("Dicionario:\n");
@@ -51,6 +66,8 @@ public class Dicionario {
         } 
         return dictionary_string;
     }
+
+    
     
     public String toJSON() {
         String json = new String("[\n");
@@ -100,6 +117,10 @@ public class Dicionario {
 
     public boolean containsKey(String key) {
         return dicionario.containsKey(key);
+    }
+
+    public int size() {
+        return dicionario.size();
     }
 }
 

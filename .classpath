@@ -1,0 +1,5 @@
+<classpath>
+    <classpathentry kind="lib" path="lib/lucene-core-9.6.0.jar"/>
+    <classpathentry kind="gson" path="lib/gson-2.10.1.jar"/>
+    <classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,7 +1,15 @@
 package classes;
 
 import java.util.HashMap;
-import javafx.util.Pair;
+import java.util.*;
+ 
+import java.io.FileWriter;
+import java.io.IOException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.io.FileReader;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 
 public class Dicionario {
     // dicionário de termos - < Termo: < Frequência, PostingList > >
@@ -31,6 +39,21 @@ public class Dicionario {
         this.dicionario.put(termo, value);
     }
 
+    public PostingList getPostingList(String term) {
+        
+        return postList;
+    }
+
+    public ArrayList<Integer> getPositionsList(String term, Integer docId) {
+
+        return posList;
+    }
+
+    public void updatePositionsList(String term, Integer docId, Integer pos) {
+
+    }
+
+
     @Override
     public String toString() {
         String dictionary_string = new String("Dicionario:\n");
@@ -43,6 +66,8 @@ public class Dicionario {
         } 
         return dictionary_string;
     }
+
+    
     
     public String toJSON() {
         String json = new String("[\n");
@@ -67,6 +92,35 @@ public class Dicionario {
         } 
         json = json + "]";
         return json;
+    }
+
+    public void saveToJsonFile(String filename) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(dicionario);
+
+        try (FileWriter writer = new FileWriter(filename)) {
+            writer.write(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readFromJsonFile(String filename) {
+        try (FileReader reader = new FileReader(filename)) {
+            Gson gson = new GsonBuilder().create();
+            Type type = new TypeToken<HashMap<String, Pair<Integer, PostingList>>>() {}.getType();
+            dicionario = gson.fromJson(reader, type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean containsKey(String key) {
+        return dicionario.containsKey(key);
+    }
+
+    public int size() {
+        return dicionario.size();
     }
 }
 

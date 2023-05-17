@@ -40,5 +40,12 @@ public class Testar {
         System.out.println(dic.toString());
         System.out.println("----------\n");
         System.out.println(dic.toJSON());
+
+        dic.saveToJsonFile("./database/dicionario.json");
+
+        Dicionario dic2 = new Dicionario();
+        System.out.println("----------\n");
+        dic2.readFromJsonFile("./database/dicionario.json");
+        System.out.println(dic2.toJSON());
     }
 }

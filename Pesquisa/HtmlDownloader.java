@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class HtmlDownloader {
 
     public static void main(String[] args) {
@@ -13,7 +14,7 @@ public class HtmlDownloader {
 
         String url = sc.nextLine();
         String fileName = url.replaceAll("[^a-zA-Z0-9.-]", "_") + ".html"; // replace invalid characters with underscores
-        ArrayList<String> links = new ArrayList<>();
+        ArrayList<String> links;
         try {
             URL website = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) website.openConnection();
@@ -45,10 +46,11 @@ public class HtmlDownloader {
                 fileConnection.connect();
 
                 BufferedInputStream bis = new BufferedInputStream(fileConnection.getInputStream());
-                FileOutputStream fos = new FileOutputStream(linkName);
+                String fullpath = "texto" + "\\" + linkName;
+                FileOutputStream fos = new FileOutputStream(fullpath);
 
                 byte[] buffer = new byte[1024];
-                int count = 0;
+                int count;
                 while ((count = bis.read(buffer, 0, 1024)) != -1) {
                     fos.write(buffer, 0, count);
                 }

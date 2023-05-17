@@ -2,12 +2,14 @@ package classes;
 
 import java.util.HashMap;
 import java.util.*;
-
+ 
 import java.io.FileWriter;
 import java.io.IOException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.FileReader;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 
 public class Dicionario {
     // dicionário de termos - < Termo: < Frequência, PostingList > >
@@ -89,10 +91,15 @@ public class Dicionario {
     public void readFromJsonFile(String filename) {
         try (FileReader reader = new FileReader(filename)) {
             Gson gson = new GsonBuilder().create();
-            dicionario = gson.fromJson(reader, HashMap.class);
+            Type type = new TypeToken<HashMap<String, Pair<Integer, PostingList>>>() {}.getType();
+            dicionario = gson.fromJson(reader, type);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean containsKey(String key) {
+        return dicionario.containsKey(key);
     }
 }
 

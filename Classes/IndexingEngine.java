@@ -18,13 +18,13 @@ import java.io.IOException;
 
 
 public class IndexingEngine {
-    private Dicionario dicionario;  // HashMap dos documentos
-    private Map<String, Integer> termMap;      // HashMap dos termos
+    Dicionario dicionario = new Dicionario();  // HashMap dos documentos
+    // private Map<String, Integer> termMap;      // HashMap dos termos
     
-    public IndexingEngine() {
-        documentMap = new HashMap<>();
-        termMap = new HashMap<>();
-    }
+    // public IndexingEngine() {
+    //     dicionario = new HashMap<>();
+    //     termMap = new HashMap<>();
+    // }
 
     final List<String> stopWords =
         Arrays.asList(
@@ -33,16 +33,20 @@ public class IndexingEngine {
             "these", "they", "this", "to", "was", "will", "with");
     
     public void indexDocument(String document) {
-        if (!documentMap.containsKey(document)) {
+        dicionario.readFromJsonFile("./database/dicionario.json");
+
+        if (!dicionario.containsKey(document)) {
             int documentId = documentMap.size() + 1;  // ID com autoincrement. !!Isto dá barraco com novas pesquisas!!
             documentMap.put(document, documentId);
             
             // Process the terms in the document
             String[] terms = document.split("\\s+");  // Termos são separados por espaços
+            Integer position = 1;
             for (String term : terms) {
                 term = term.toLowerCase().replaceAll("[^a-zA-Z0-9]", ""); // Normalizar
                 if (!term.isEmpty()) {
-                    indexTerm(term);
+                    position += 1;
+                    indexTerm(term, position);
                 }
             }
             
@@ -52,7 +56,7 @@ public class IndexingEngine {
         }
     }
     
-    private void indexTerm(String term) {
+    private void indexTerm(String term, Integer position) {
         if (!termMap.containsKey(term)) {
             int termId = termMap.size() + 1;  // ID com autoincrement !!Isto dá barraco com novas pesquisas!!
             termMap.put(term, termId);

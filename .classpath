@@ -1,0 +1,5 @@
+<classpath>
+    <classpathentry kind="lib" path="lib/lucene-core-9.6.0.jar"/>
+    <!-- mais jar aqui -->
+    <classpathentry kind="output" path="bin"/>
+</classpath>

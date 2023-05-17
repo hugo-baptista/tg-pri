@@ -1,7 +1,13 @@
 package classes;
 
 import java.util.HashMap;
-import javafx.util.Pair;
+import java.util.*;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.io.FileReader;
 
 public class Dicionario {
     // dicionário de termos - < Termo: < Frequência, PostingList > >
@@ -67,6 +73,26 @@ public class Dicionario {
         } 
         json = json + "]";
         return json;
+    }
+
+    public void saveToJsonFile(String filename) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(dicionario);
+
+        try (FileWriter writer = new FileWriter(filename)) {
+            writer.write(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readFromJsonFile(String filename) {
+        try (FileReader reader = new FileReader(filename)) {
+            Gson gson = new GsonBuilder().create();
+            dicionario = gson.fromJson(reader, HashMap.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 

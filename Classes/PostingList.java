@@ -3,7 +3,6 @@ package classes;
 import java.util.ArrayList;
 
 import java.util.*;
-import javafx.util.Pair;
 
 public class PostingList {
     // Posting List - < DocID, PositionList >

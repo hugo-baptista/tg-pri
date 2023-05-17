@@ -1,14 +1,24 @@
-package Classes;
+package classes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import Classes.Dicionario;
-import Classes.PostingList;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import classes.Dicionario;
+import classes.PostingList;
+import java.util.*;
+import java.io.FileWriter;
+import java.io.IOException;
+
+
 
 public class IndexingEngine {
-    private Map<String, Integer> documentMap;  // HashMap dos documentos
+    private Dicionario dicionario;  // HashMap dos documentos
     private Map<String, Integer> termMap;      // HashMap dos termos
     
     public IndexingEngine() {
@@ -16,10 +26,11 @@ public class IndexingEngine {
         termMap = new HashMap<>();
     }
 
-    List<String> stopWords = new ArrayList<String>();
-    stopWords.add("and");
-    stopWords.add("or");
-    stopWords.add("it");
+    final List<String> stopWords =
+        Arrays.asList(
+            "a", "an", "and", "are", "as", "at", "be", "but", "by", "for", "if", "in", "into", "is",
+            "it", "no", "not", "of", "on", "or", "such", "that", "the", "their", "then", "there",
+            "these", "they", "this", "to", "was", "will", "with");
     
     public void indexDocument(String document) {
         if (!documentMap.containsKey(document)) {

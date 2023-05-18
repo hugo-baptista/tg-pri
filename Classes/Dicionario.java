@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import java.io.FileReader;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import classes.PostingList;
 
 public class Dicionario {
     // dicionário de termos - < Termo: < Frequência, PostingList > >
@@ -40,17 +41,21 @@ public class Dicionario {
     }
 
     public PostingList getPostingList(String term) {
-        
-        return postList;
+        Pair<Integer, PostingList> pair = dicionario.get(term);
+        if (pair != null) {
+            return pair.getValue();
+        }
+        return null;
     }
 
     public ArrayList<Integer> getPositionsList(String term, Integer docId) {
-
+        PostingList postlist = dicionario.getPostingList(term);
+        ArrayList<Integer> posList = postlist.getPositionsList(docId);
         return posList;
     }
 
     public void updatePositionsList(String term, Integer docId, Integer pos) {
-
+        
     }
 
 

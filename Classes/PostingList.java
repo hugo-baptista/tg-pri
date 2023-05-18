@@ -38,6 +38,15 @@ public class PostingList {
         return this.posting_list.size();
     }
 
+    public ArrayList<Integer> getPositionsList(Integer docId) {
+        for (Pair<Integer, ArrayList<Integer>> pair : posting_list) {
+            if (pair.getKey() == docID) {
+                return pair.getValue();
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         String posting_list_string = new String();

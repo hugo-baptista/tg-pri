@@ -1,5 +1,3 @@
-package classes;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class PesquisaQuestao {
@@ -24,6 +23,21 @@ public class PesquisaQuestao {
         }
         return t_freq;
     }
+
+    private static Map<String, Pair<Integer, Integer>> ReceiveJson (Map<String,Pair<Integer,Array>> dicionario) {
+        Map<String, Pair<Integer, Integer>> t_tf_df = new HashMap<>();
+        
+        for (String i: dicionario.keySet()) {
+            Pair<Integer, Array> pair = dicionario.get(i);
+            for (Pair<Integer,Array>> j: pair) {
+
+            }
+            
+            int  = pair.getKey();
+            Integer df +=
+        }
+        return 0,
+    } 
 
     private static Map<String, Double> QueryScore (Map<String, Pair<Integer, Integer>> vector,Map<String, Integer> t_freq ,Integer N) {
         Map<String, Double> scores = new HashMap<>();
@@ -113,7 +127,7 @@ public class PesquisaQuestao {
     public static void main(String[] args) {
         Map<String, Pair<Integer, Integer>> vector = new HashMap<>();
         vector.put("lavar", new Pair<>(10, 20));
-        vector.put("banana", new Pair<>(7, 17));
+        vector.put("banana", new Pair<>(7, 15));
         vector.put("carro", new Pair<>(6, 15));
         System.out.println(QTermFrequency("quero lavar lavar o carro, o"));
         System.out.println(DocumentScore(vector, 50));

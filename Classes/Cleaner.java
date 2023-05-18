@@ -1,4 +1,4 @@
-package Pesquisa;
+package classes;
 
 import java.io.*;
 import java.util.regex.Matcher;

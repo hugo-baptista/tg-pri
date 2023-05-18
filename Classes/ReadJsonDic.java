@@ -7,7 +7,7 @@ import java.util.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import Classes.Dicionario;
+import classes.Dicionario;
 
 public class ReadJsonDic {
     public static void main(String[] args) {

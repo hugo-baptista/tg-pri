@@ -1,13 +1,14 @@
 package classes;
 
 import java.util.*;
-import classes.PesquisaQuestao;
+import classes.ModeloVetorial;
 
 public class Testar {
 
     public static void main(String[] args) {
         // Criação do dicionário
         Dicionario dic = new Dicionario();
+        ModeloVetorial scores = new ModeloVetorial();
 
         // Posting List do termo  "be"
         PostingList postinglist_be = new PostingList();
@@ -35,7 +36,6 @@ public class Testar {
         postinglist_to.add_doc(3, pos7);
 
         dic.add_term("to", postinglist_to);
-        Map<Integer, Map<String, Pair<Integer, Integer>>> l = PesquisaQuestao(dic)
         // Ver o dicionário
         System.out.println(dic.toString());
         System.out.println("----------\n");
@@ -47,5 +47,16 @@ public class Testar {
         System.out.println("----------\n");
         dic2.readFromJsonFile("./database/dicionario.json");
         System.out.println(dic2.toJSON());
+
+        PostingList postings = new PostingList();
+        postings = (dic2.getPostingList("be"));
+        System.out.println(postings);
+
+        System.out.println(scores.scoresDocs("be to from"));
+
+
+        HashMap<String, Integer> n = scores.queryTermFreq("be to from lol");
+        System.out.println(scores.queryScore(n));
+        
     }
 }

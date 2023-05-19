@@ -16,4 +16,10 @@ public class Pair<K, V> {
     public V getValue() {
         return value;
     }
+
+    public String toString() {
+        String string = new String();
+        string = (this.getKey() + ": " + this.getValue());
+        return string;
+    }
 }

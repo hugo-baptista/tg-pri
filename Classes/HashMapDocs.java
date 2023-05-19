@@ -13,6 +13,11 @@ public class HashMapDocs {
 
     private HashMap<String, Integer> documentHashes;
 
+    public DocumentHashes () {
+        HashMap<String, Integer> map = new HashMap<>();
+        this.documentHashes = map;
+    }
+
     public void DocumentHashMapping() {
         documentHashes = new HashMap<>();
     }

@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 import classes.PostingList;
 
 public class Dicionario {
-    // dicionário de termos - < Termo: < Frequência, PostingList > >
+    // dicionário de termos - < Termo: < DocFreq, PostingList > >
     private HashMap<String,Pair<Integer,PostingList>> dicionario;
     
     // construtores
@@ -46,6 +46,27 @@ public class Dicionario {
             return pair.getValue();
         }
         return null;
+    }
+    public Pair<Integer, PostingList> getPair(String term) {
+        Pair<Integer, PostingList> pair = dicionario.get(term);
+        if (pair != null) {
+            return pair;
+        }
+        return null;
+    }
+
+
+    public Integer getDocFreq(String term) {
+        Pair<Integer, PostingList> pair = dicionario.get(term);
+        if (pair != null) {
+            return pair.getKey();
+        }
+        return null;
+    }
+
+    public Set<String> getTermos() {
+        Set<String> set = dicionario.keySet();
+        return set;
     }
 
     public ArrayList<Integer> getPositionsList(String term, Integer docId) {

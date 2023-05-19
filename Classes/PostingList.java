@@ -40,11 +40,15 @@ public class PostingList {
 
     public ArrayList<Integer> getPositionsList(Integer docId) {
         for (Pair<Integer, ArrayList<Integer>> pair : posting_list) {
-            if (pair.getKey() == docID) {
+            if (pair.getKey() == docId) {
                 return pair.getValue();
             }
         }
         return null;
+    }
+
+    public ArrayList<Pair<Integer, ArrayList<Integer>>> getAllPairs() {
+        return posting_list;
     }
 
     @Override

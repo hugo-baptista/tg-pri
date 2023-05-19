@@ -67,7 +67,7 @@ public class PostingList {
             int docID = doc.getKey();
             ArrayList<Integer> positions = doc.getValue();
             json = json + "\t\t\"docid\" : " + docID + ",\n";
-            json = json + "\t\t\"postions\" : " + positions + "\n";
+            json = json + "\t\t\"positions\" : " + positions + "\n";
             i++;
             if(i==i_max){
                 json = json + "\t\t}\n";

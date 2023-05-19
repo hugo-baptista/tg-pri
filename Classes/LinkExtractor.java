@@ -40,7 +40,7 @@ public class LinkExtractor {
                     Elements content = document.select("p");
                     linkScanner.close();
                     for (Element element : content) {
-                        if (element.text().contains("Marggrabowa") && !lista.contains(linkUrlObj.toString())) {
+                        if (element.text().contains("mapper") && !lista.contains(linkUrlObj.toString())) {
                             System.out.println(linkUrlObj.toString() + " contains the specific value.");
                             lista.add(linkUrlObj.toString());
                             Thread.sleep(50);

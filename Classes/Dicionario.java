@@ -55,7 +55,10 @@ public class Dicionario {
     }
 
     public void updatePositionsList(String term, Integer docId, Integer pos) {
+        ArrayList<Integer> positions = dicionario.getPositionsList(term, docId);
+        positions.add(pos);
         
+        dicionario.put(term)
     }
 
 

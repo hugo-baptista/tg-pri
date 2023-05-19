@@ -1,3 +1,4 @@
+package classes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,20 +24,23 @@ public class PesquisaQuestao {
         }
         return t_freq;
     }
-
-    private static Map<String, Pair<Integer, Integer>> ReceiveJson (Map<String,Pair<Integer,Array>> dicionario) {
-        Map<String, Pair<Integer, Integer>> t_tf_df = new HashMap<>();
-        
-        for (String i: dicionario.keySet()) {
-            Pair<Integer, Array> pair = dicionario.get(i);
-            for (Pair<Integer,Array>> j: pair) {
-
+    //PostingList -> ArrayList<Pair<Integer,ArrayList<Integer>>>
+    private static Map<Integer, Map<String, Pair<Integer, Integer>>> ReceiveDict (HashMap<String,Pair<Integer,ArrayList<Pair<Integer,ArrayList<Integer>>>>> dicionario) {
+        Map<Integer, Map<String, Pair<Integer, Integer>>> t_docid_tf_df = new HashMap<>();
+        for (String key: dicionario.keySet()) {
+            Pair<Integer,ArrayList<Pair<Integer,ArrayList<Integer>>>> pair = dicionario.get(key);
+            Integer df = pair.getKey();
+            ArrayList<Pair<Integer,ArrayList<Integer>>> pl = pair.getValue();
+            for (Pair<Integer,ArrayList<Integer>> i: pl) {
+                int docid = i.getKey();
+                ArrayList Positions = i.getValue();
+                Integer tf = Positions.size();
+                Map<String, Pair<Integer, Integer>> innerMap = new HashMap<>();
+                innerMap.put(key, new Pair<>(df, tf));
+                t_docid_tf_df.put(docid, innerMap);
             }
-            
-            int  = pair.getKey();
-            Integer df +=
         }
-        return 0,
+        return t_docid_tf_df;
     } 
 
     private static Map<String, Double> QueryScore (Map<String, Pair<Integer, Integer>> vector,Map<String, Integer> t_freq ,Integer N) {

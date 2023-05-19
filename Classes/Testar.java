@@ -1,6 +1,7 @@
 package classes;
 
 import java.util.*;
+import classes.PesquisaQuestao;
 
 public class Testar {
 
@@ -24,7 +25,6 @@ public class Testar {
         postinglist_be.add_doc(5, pos5);
         
         dic.add_term("be", postinglist_be);
-        
         // Posting List do termo  "to"
         PostingList postinglist_to = new PostingList();
 
@@ -35,7 +35,7 @@ public class Testar {
         postinglist_to.add_doc(3, pos7);
 
         dic.add_term("to", postinglist_to);
-
+        Map<Integer, Map<String, Pair<Integer, Integer>>> l = PesquisaQuestao(dic)
         // Ver o dicionário
         System.out.println(dic.toString());
         System.out.println("----------\n");

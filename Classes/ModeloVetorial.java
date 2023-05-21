@@ -58,13 +58,15 @@ public class ModeloVetorial {
             
         }
         Double sum = 0.0;
+        Double new_sum = 0.0;
         for (String key: score.keySet()) {
             Double value = score.get(key);
             sum += Math.pow(value, 2);
+        new_sum = Math.sqrt(sum);
         }
         for (String key: score.keySet()) {
             Double value = score.get(key);
-            Double new_value = value/sum;
+            Double new_value = value/new_sum;
             q_score.put(key, new_value);
         }
         return q_score;
@@ -115,5 +117,25 @@ public class ModeloVetorial {
         }
         // scores = provScores;
         return provScores;
+    }
+    //HashMap(docid, similiridade final de cada doc com a query)
+    public HashMap<Integer, Double> similiaridadeFinal (HashMap<Integer, HashMap<String, Double>> dscores, HashMap<String, Double> qscores) {
+        HashMap<Integer, Double> qdscores = new HashMap<>();
+        List<Double> s = new ArrayList<>();
+        for (Integer key: dscores.keySet()) {
+            s.clear();
+            HashMap<String, Double> value = dscores.get(key);
+            for (String i: value.keySet()) {
+                if (qscores.containsKey(i)) {
+                    s.add(value.get(i) * qscores.get(i));
+                }
+            }   
+            Double sum = 0.0;
+            for (Double j: s) {
+                sum += j;
+            }
+            qdscores.put(key, sum);   
+        }
+        return qdscores;
     }
 }

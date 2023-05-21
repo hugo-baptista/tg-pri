@@ -57,6 +57,7 @@ public class Testar {
 
         HashMap<String, Integer> n = scores.queryTermFreq("be to from lol");
         System.out.println(scores.queryScore(n));
+        System.out.println(scores.similiaridadeFinal(scores.scoresDocs("be to from"), scores.queryScore(n)));
         
     }
 }

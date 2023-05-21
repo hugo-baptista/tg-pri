@@ -58,13 +58,15 @@ public class ModeloVetorial {
             
         }
         Double sum = 0.0;
+        Double new_sum = 0.0;
         for (String key: score.keySet()) {
             Double value = score.get(key);
             sum += Math.pow(value, 2);
+        new_sum = Math.sqrt(sum);
         }
         for (String key: score.keySet()) {
             Double value = score.get(key);
-            Double new_value = value/sum;
+            Double new_value = value/new_sum;
             q_score.put(key, new_value);
         }
         return q_score;

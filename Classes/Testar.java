@@ -52,11 +52,14 @@ public class Testar {
         postings = (dic2.getPostingList("be"));
         System.out.println(postings);
 
+        HashMap<Integer, HashMap<String, Double>> dscores = scores.scoresDocs("be to from");
         System.out.println(scores.scoresDocs("be to from"));
 
 
-        HashMap<String, Integer> n = scores.queryTermFreq("be to from lol");
+        HashMap<String, Integer> n = scores.queryTermFreq("be to from");
+        HashMap<String, Double> qscore = scores.queryScore(n);
         System.out.println(scores.queryScore(n));
-        
+
+        System.out.println(scores.similiaridadeFinal(dscores, qscore));
     }
 }

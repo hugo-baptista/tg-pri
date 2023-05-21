@@ -73,8 +73,8 @@ public class ModeloVetorial {
     public HashMap<Integer, HashMap<String, Double>> scoresDocs(String query) {
         dicionario.readFromJsonFile("./database/dicionario.json");
 
+        // DocId: term: score
         HashMap<Integer, HashMap<String, Double>> provScores = new HashMap<Integer, HashMap<String, Double>>();
-        HashMap<String, Double> scoreTerm = new HashMap<>();
 
         query = query.toLowerCase();
         String[] terms = query.split("[,\\s]+");
@@ -88,32 +88,77 @@ public class ModeloVetorial {
                     ArrayList<Integer> positions = posting.getValue();
                     int tf = positions.size();;
 
-                    if (tf == 0 || df == 0) {
-                        scores.put(docId, 0.0);
+                    // term: score
+                    HashMap<String, Double> scoreTerms = new HashMap<>();
 
-                    } else {
+                    if (provScores.containsKey(docId)) {
+                        scoreTerms = provScores.get(docId);
+
                         double wt = (1 + Math.log10(tf)) * Math.log10(8/df);
-                        System.out.println(wt);
-                        scoreTerm.put(term, wt);
-                        provScores.put(docId, scoreTerm);
-                        // if (provScores.containsKey(docId)) {
-                        //     // The docID is already present in the provScores
-                            // double currentScore = provScores.get(docId).get(term);
-                            // double updatedScore = currentScore + wt;
-                        //     scoreTerm.put(term, wt);
-                        //     provScores.put(docId, scoreTerm);
-                        // } else {
-                        //     // The docID is not present in the provScores
-                        //     scoreTerm.put(term, wt);
-                        //     provScores.put(docId, scoreTerm);
-                        // }
+                        scoreTerms.put(term, wt);
+                        double soma_quadrados = provScores.get(docId).get("soma_quadrados");
+                        double sq_atualizada = soma_quadrados + (wt * wt);
+                        scoreTerms.put("soma_quadrados", sq_atualizada);
+                        provScores.put(docId, scoreTerms);
+                    
+                        
+                    } 
+                    else {
+                        double wt = (1 + Math.log10(tf)) * Math.log10(8/df);
+                        scoreTerms.put(term, wt);
+                        double soma_quadrados = wt * wt;
+                        scoreTerms.put("soma_quadrados", soma_quadrados);
+                        provScores.put(docId, scoreTerms);
+        
                     }
 
                 }
             
             }
         }
-        // scores = provScores;
+        scoresDocsNormalizer(provScores);
         return provScores;
+    }
+
+    public HashMap<Integer, HashMap<String, Double>> scoresDocsNormalizer(HashMap<Integer, HashMap<String, Double>> scores) {
+        
+        for (Integer docId : scores.keySet()) {
+            double soma_quadrados = scores.get(docId).get("soma_quadrados");
+            double raiz_sq = Math.sqrt(soma_quadrados);
+            // term: score
+            HashMap<String, Double> scoreTerms = new HashMap<>();
+            scoreTerms = scores.get(docId);
+            for (String term : scoreTerms.keySet()) {
+                if (!term.equals("soma_quadrados")) {
+                    double score = scoreTerms.get(term);
+                    double score_norm = score / raiz_sq;
+                    scoreTerms.put(term, score_norm);
+                } 
+            }
+            scores.put(docId, scoreTerms);
+        }
+        return scores;
+        
+    }
+
+    //HashMap(docid, similiridade final de cada doc com a query)
+    public HashMap<Integer, Double> similiaridadeFinal (HashMap<Integer, HashMap<String, Double>> dscores, HashMap<String, Double> qscores) {
+        HashMap<Integer, Double> qdscores = new HashMap<>();
+        List<Double> s = new ArrayList<>();
+        for (Integer key: dscores.keySet()) {
+            s.clear();
+            HashMap<String, Double> value = dscores.get(key);
+            for (String i: value.keySet()) {
+                if (qscores.containsKey(i)) {
+                    s.add(value.get(i) * qscores.get(i));
+                }
+            }
+            Double sum = 0.0;
+            for (Double j: s) {
+                sum += j;
+            }
+            qdscores.put(key, sum);
+        }
+        return qdscores;
     }
 }

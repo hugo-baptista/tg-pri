@@ -40,6 +40,11 @@ public class Dicionario {
         this.dicionario.put(termo, value);
     }
 
+    public void add_term(String term, PostingList postList, int docf) {
+        Pair<Integer, PostingList> termPair = new Pair<>(docf, postList);
+        dicionario.put(term, termPair);
+    }
+
     public PostingList getPostingList(String term) {
         Pair<Integer, PostingList> pair = dicionario.get(term);
         if (pair != null) {

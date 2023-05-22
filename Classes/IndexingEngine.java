@@ -51,6 +51,11 @@ public class IndexingEngine {
                                 term = term.replaceAll("[óôõò]", "o");
                                 term = term.replaceAll("[úùû]", "u");
                                 term = term.replaceAll("[^a-z0-9]", "");
+                                if (term == "slovak") {
+                                    System.out.println(term);
+                                }
+                                
+                                
                                 
                                 if (!term.isEmpty()) {
                                     position += 1;
@@ -79,6 +84,12 @@ public class IndexingEngine {
                                         ArrayList<Integer> positions = new ArrayList<>();
                                         positions.add(pair.getValue());
                                         postList.add_doc(hashkey, positions);
+                                        Pair<Integer, PostingList> termPair = dicionario.getPair(pair.getKey());
+                                        termPair.add_term(termPair.getKey() + 1);
+                                        dicionario.add_term(pair.getKey(), postList);
+                                        // Integer docf = dicionario.getPair(pair.getKey()).getKey();
+                                        // docf += 1;
+                                        // dicionario.add_term(pair.getKey(), postList);
                                     }
 
                                 }
@@ -100,6 +111,9 @@ public class IndexingEngine {
     
     private void indexTerm(String term, Integer position, ArrayList<Pair<String, Integer>> termsList) {
         Pair<String, Integer> newPair = new Pair<>(term, position);
+        if (term == "again") {
+            System.out.println(position);
+        }
         termsList.add(newPair);
     }
 

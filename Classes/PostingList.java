@@ -25,6 +25,7 @@ public class PostingList {
     // métodos
     public void add_doc(Integer doc_id, ArrayList<Integer> position_list) {
         posting_list.put(doc_id, position_list);
+        
     }
 
     public Integer size() {

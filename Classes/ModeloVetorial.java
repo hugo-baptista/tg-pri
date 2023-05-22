@@ -49,7 +49,7 @@ public class ModeloVetorial {
                 if (tf == 0 || df == 0) {
                     score.put(i, 0.0);
                 } else {
-                    wt = (1 + Math.log10(tf)) * Math.log10(N/df);
+                    wt = (1 + Math.log10(tf)) * Math.log10((double)N/df);
                     score.put(i, wt);
                 }
             } else {
@@ -75,7 +75,7 @@ public class ModeloVetorial {
     public HashMap<Integer, HashMap<String, Double>> scoresDocs(String query) {
         dicionario.readFromJsonFile();
         docsHashMap.readFromJsonFile();
-        int N = docsHashMap.size();
+        int N = docsHashMap.size() - 1; // -1 por causa do DocTeste
 
         // DocId: term: score
         HashMap<Integer, HashMap<String, Double>> provScores = new HashMap<Integer, HashMap<String, Double>>();
@@ -90,7 +90,7 @@ public class ModeloVetorial {
                 for (Map.Entry<Integer,ArrayList<Integer>> posting : postingslist.entrySet()) {
                     int docId = posting.getKey();
                     ArrayList<Integer> positions = posting.getValue();
-                    int tf = positions.size();;
+                    int tf = positions.size();
 
                     // term: score
                     HashMap<String, Double> scoreTerms = new HashMap<>();
@@ -98,7 +98,7 @@ public class ModeloVetorial {
                     if (provScores.containsKey(docId)) {
                         scoreTerms = provScores.get(docId);
 
-                        double wt = (1 + Math.log10(tf)) * Math.log10(N/df);
+                        double wt = (1 + Math.log10(tf)) * Math.log10((double)N/df);
                         scoreTerms.put(term, wt);
                         double soma_quadrados = provScores.get(docId).get("soma_quadrados");
                         double sq_atualizada = soma_quadrados + (wt * wt);
@@ -108,7 +108,7 @@ public class ModeloVetorial {
                         
                     } 
                     else {
-                        double wt = (1 + Math.log10(tf)) * Math.log10(8/df);
+                        double wt = (1 + Math.log10(tf)) * Math.log10((double)N/df);
                         scoreTerms.put(term, wt);
                         double soma_quadrados = wt * wt;
                         scoreTerms.put("soma_quadrados", soma_quadrados);

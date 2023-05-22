@@ -66,10 +66,10 @@ public class Testar {
         System.out.println("\nTestar indexação\n");
         engine.indexDocuments();
 
-        HashMap<Integer, HashMap<String, Double>> dscores2 = scores.scoresDocs("Music to fight");
-        System.out.println(scores.scoresDocs("Music to fight"));
+        HashMap<Integer, HashMap<String, Double>> dscores2 = scores.scoresDocs("Music set slovak");
+        System.out.println(scores.scoresDocs("Music set slovak"));
 
-        HashMap<String, Integer> n2 = scores.queryTermFreq("Music to fight");
+        HashMap<String, Integer> n2 = scores.queryTermFreq("Music set slovak");
         HashMap<String, Double> qscore2 = scores.queryScore(n2);
         System.out.println(scores.queryScore(n2));
 

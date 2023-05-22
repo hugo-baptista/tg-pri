@@ -3,6 +3,8 @@ package classes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.*;
+
 
 import java.io.IOException;
 
@@ -68,7 +70,8 @@ public class IndexingEngine {
 
                             for (Pair<String, Integer> pair : termsList) {
                                 if (!dicionario.containsKey(pair.getKey())) {
-                                    ArrayList<Integer> pos = new ArrayList<Integer>(pair.getValue());
+                                    // ArrayList<Integer> pos = new ArrayList<Integer>(pair.getValue());
+                                    ArrayList<Integer> pos = new ArrayList<>(Collections.singletonList(pair.getValue()));
                                     PostingList postList = new PostingList();
                                     postList.add_doc(hashkey, pos);
                                     dicionario.add_term(pair.getKey(), postList);
@@ -85,8 +88,9 @@ public class IndexingEngine {
                                         positions.add(pair.getValue());
                                         postList.add_doc(hashkey, positions);
                                         Pair<Integer, PostingList> termPair = dicionario.getPair(pair.getKey());
-                                        termPair.add_term(termPair.getKey() + 1);
-                                        dicionario.add_term(pair.getKey(), postList);
+                                        int docf = termPair.getKey() + 1;
+                                        termPair = new Pair<>(docf, postList);
+                                        dicionario.add_term(pair.getKey(), termPair.getKey(), postList);
                                         // Integer docf = dicionario.getPair(pair.getKey()).getKey();
                                         // docf += 1;
                                         // dicionario.add_term(pair.getKey(), postList);

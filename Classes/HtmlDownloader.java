@@ -10,7 +10,7 @@ public class HtmlDownloader {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter a URL to download:");
+        System.out.println("Enter the main URL where the search for the keyword must start:");
 
         String url = sc.nextLine();
         String fileName = url.replaceAll("[^a-zA-Z0-9.-]", "_") + ".html"; // replace invalid characters with underscores
@@ -36,7 +36,7 @@ public class HtmlDownloader {
             writer.close();
 
             links = LinkExtractor.extractLinks(content.toString(), url);
-            System.out.println(links.size() + " links found that match the rule.");
+            System.out.println(links.size() + " links found that contain the keyword.");
 
             for (String link : links) {
                 String linkName = link.replaceAll("[^a-zA-Z0-9.-]", "_") + ".html"; // replace invalid characters with underscores

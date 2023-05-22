@@ -11,10 +11,10 @@ import java.lang.reflect.Type;
 
 public class HashMapDocs {
 
-    private HashMap<String, Integer> documentHashes;
+    private HashMap<Integer, String> documentHashes;
 
     public HashMapDocs() {
-        HashMap<String, Integer> map = new HashMap<>();
+        HashMap<Integer, String> map = new HashMap<>();
         this.documentHashes = map;
     }
 
@@ -22,16 +22,21 @@ public class HashMapDocs {
         documentHashes = new HashMap<>();
     }
 
-    public void addDocument(Document document) {
+    public void addDocument(String document) {
         int hashValue = document.hashCode();
-        documentHashes.put(document.getName(), hashValue);
+        documentHashes.put(hashValue, document);
     }
 
-    public Integer getHashValue(String documentName) {
-        return documentHashes.get(documentName);
+    public String getDocName(Integer documentHash) {
+        return documentHashes.get(documentHash);
     }
 
-    public void saveToJsonFile(String filename) {
+    public boolean containsKey(Integer key) {
+        return documentHashes.containsKey(key);
+    }
+
+    public void saveToJsonFile() {
+        String filename = "./database/hashmapdocs.json";
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(documentHashes);
 
@@ -42,14 +47,19 @@ public class HashMapDocs {
         }
     }
 
-    public void readFromJsonFile(String filename) {
+    public void readFromJsonFile() {
+        String filename = "./database/hashmapdocs.json";
         try (FileReader reader = new FileReader(filename)) {
             Gson gson = new GsonBuilder().create();
-            Type type = new TypeToken<HashMap<String, Pair<Integer, PostingList>>>() {}.getType();
+            Type type = new TypeToken<HashMap<Integer, String>>() {}.getType();
             documentHashes = gson.fromJson(reader, type);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public int size() {
+        return documentHashes.size();
     }
     
 }

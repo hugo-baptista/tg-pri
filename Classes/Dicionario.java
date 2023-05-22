@@ -45,7 +45,8 @@ public class Dicionario {
         if (pair != null) {
             return pair.getValue();
         }
-        return null;
+        PostingList empty_postList = new PostingList();
+        return empty_postList;
     }
     public Pair<Integer, PostingList> getPair(String term) {
         Pair<Integer, PostingList> pair = dicionario.get(term);
@@ -69,18 +70,18 @@ public class Dicionario {
         return set;
     }
 
-    public ArrayList<Integer> getPositionsList(String term, Integer docId) {
-        PostingList postlist = dicionario.getPostingList(term);
-        ArrayList<Integer> posList = postlist.getPositionsList(docId);
-        return posList;
-    }
+    // public ArrayList<Integer> getPositionsList(String term, Integer docId) {
+    //     PostingList postlist = dicionario.getPostingList(term);
+    //     ArrayList<Integer> posList = postlist.getPositionsList(docId);
+    //     return posList;
+    // }
 
-    public void updatePositionsList(String term, Integer docId, Integer pos) {
-        ArrayList<Integer> positions = dicionario.getPositionsList(term, docId);
-        positions.add(pos);
+    // public void updatePositionsList(String term, Integer docId, Integer pos) {
+    //     ArrayList<Integer> positions = dicionario.getPositionsList(term, docId);
+    //     positions.add(pos);
         
-        dicionario.put(term)
-    }
+    //     dicionario.put(term);
+    // }
 
 
     @Override
@@ -123,7 +124,8 @@ public class Dicionario {
         return json;
     }
 
-    public void saveToJsonFile(String filename) {
+    public void saveToJsonFile() {
+        String filename = "./database/dicionario.json";
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(dicionario);
 
@@ -134,7 +136,8 @@ public class Dicionario {
         }
     }
 
-    public void readFromJsonFile(String filename) {
+    public void readFromJsonFile() {
+        String filename = "./database/dicionario.json";
         try (FileReader reader = new FileReader(filename)) {
             Gson gson = new GsonBuilder().create();
             Type type = new TypeToken<HashMap<String, Pair<Integer, PostingList>>>() {}.getType();

@@ -5,6 +5,7 @@ import java.util.*;
 public class ModeloVetorial {
 
     Dicionario dicionario = new Dicionario();
+    HashMapDocs docsHashMap = new HashMapDocs();
 
     // Mapa com docID: score
     private HashMap<Integer, Double> scores;
@@ -32,13 +33,12 @@ public class ModeloVetorial {
     }
     //dicionario -> HashMap<String,Pair<Integer,PostingList>>
     public HashMap<String, Double> queryScore (HashMap<String, Integer> t_freq) {
-        dicionario.readFromJsonFile("./database/dicionario.json");
+        dicionario.readFromJsonFile();
         HashMap<String, Double> score = new HashMap<>();
         HashMap<String, Double> q_score = new HashMap<>();
-        // Set<String> set1 = t_freq.keySet();
-        // Set<String> set2 = dicionario.getTermos();
-        // Set<String> commonKeys = new HashSet<>(set1);
-        // commonKeys.retainAll(set2);
+        docsHashMap.readFromJsonFile();
+        int N = docsHashMap.size();
+
         Double wt = 0.0;
         for (String i: t_freq.keySet()) {
             if (dicionario.containsKey(i)){
@@ -49,7 +49,7 @@ public class ModeloVetorial {
                 if (tf == 0 || df == 0) {
                     score.put(i, 0.0);
                 } else {
-                    wt = (1 + Math.log10(tf)) * Math.log10(10/df);
+                    wt = (1 + Math.log10(tf)) * Math.log10(N/df);
                     score.put(i, wt);
                 }
             } else {
@@ -73,7 +73,9 @@ public class ModeloVetorial {
     }
     
     public HashMap<Integer, HashMap<String, Double>> scoresDocs(String query) {
-        dicionario.readFromJsonFile("./database/dicionario.json");
+        dicionario.readFromJsonFile();
+        docsHashMap.readFromJsonFile();
+        int N = docsHashMap.size();
 
         // DocId: term: score
         HashMap<Integer, HashMap<String, Double>> provScores = new HashMap<Integer, HashMap<String, Double>>();
@@ -85,7 +87,7 @@ public class ModeloVetorial {
             if (dicionario.containsKey(term)) {
                 int df = dicionario.getDocFreq(term);
                 PostingList postingslist = dicionario.getPostingList(term);
-                for (Pair<Integer, ArrayList<Integer>> posting : postingslist.getAllPairs()) {
+                for (Map.Entry<Integer,ArrayList<Integer>> posting : postingslist.entrySet()) {
                     int docId = posting.getKey();
                     ArrayList<Integer> positions = posting.getValue();
                     int tf = positions.size();;
@@ -96,7 +98,7 @@ public class ModeloVetorial {
                     if (provScores.containsKey(docId)) {
                         scoreTerms = provScores.get(docId);
 
-                        double wt = (1 + Math.log10(tf)) * Math.log10(8/df);
+                        double wt = (1 + Math.log10(tf)) * Math.log10(N/df);
                         scoreTerms.put(term, wt);
                         double soma_quadrados = provScores.get(docId).get("soma_quadrados");
                         double sq_atualizada = soma_quadrados + (wt * wt);

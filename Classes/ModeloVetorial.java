@@ -161,8 +161,8 @@ public class ModeloVetorial {
             for (Double j: s) {
                 sum += j;
             }
-            qdscores.put(key, sum);
+            scores.put(key, sum);
         }
-        return qdscores;
+        return scores;
     }
 }

@@ -31,9 +31,9 @@ public class HtmlDownloader {
             }
 
             in.close();
-            FileWriter writer = new FileWriter(fileName);
-            writer.write(content.toString());
-            writer.close();
+            // FileWriter writer = new FileWriter(fileName);
+            // writer.write(content.toString());
+            // writer.close();
 
             links = LinkExtractor.extractLinks(content.toString(), url);
             System.out.println(links.size() + " links found that contain the keyword.");
@@ -46,7 +46,7 @@ public class HtmlDownloader {
                 fileConnection.connect();
 
                 BufferedInputStream bis = new BufferedInputStream(fileConnection.getInputStream());
-                String fullpath = "texto" + "\\" + linkName;
+                String fullpath = "database\\Downloads" + "\\" + linkName;
                 FileOutputStream fos = new FileOutputStream(fullpath);
 
                 byte[] buffer = new byte[1024];

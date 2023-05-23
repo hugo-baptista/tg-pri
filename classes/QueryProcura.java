@@ -16,20 +16,24 @@ public class QueryProcura {
         engine.indexDocuments();
 
         HashMap<Integer, HashMap<String, Double>> dscores2 = scores.scoresDocs(query);
+        System.out.println("\nDocs score:");
+        System.out.println(dscores2);
 
         HashMap<String, Integer> n2 = scores.queryTermFreq(query);
         HashMap<String, Double> qscore2 = scores.queryScore(n2);
-
-        System.out.println("\nResultados:");
-        HashMap<Integer, Double> finalscores = scores.similiaridadeFinal(dscores2, qscore2);
-        System.out.println(finalscores);
-        System.out.println(scoresFileNames(finalscores));
-
+        System.out.println("\nQuery score:");
+        System.out.println(qscore2);
         
 
+        System.out.println("\nFinal results:");
+        HashMap<Integer, Double> finalscores = scores.similiaridadeFinal(dscores2, qscore2);
+        System.out.println(finalscores);
+        System.out.println("\nFinal results with docnames:");
+        System.out.println(scoresFileNames(finalscores));
 
         LinkedHashMap<String, Double> sortedMap = sortHashMapDescending(scoresFileNames(finalscores));
 
+        System.out.println("\nSorted final results with docnames:");
         System.out.println(sortedMap);
         
         int i = 0;
@@ -37,7 +41,7 @@ public class QueryProcura {
             String docname = entry.getKey();
             Double score = entry.getValue();
             if (i < 5 && score > 0.316) {
-                System.out.println("Documento: " + docname + " (score= " + score + ")");
+                System.out.println("\nDocument: " + docname + " (score= " + score + ")");
                 i += 1;
             }
         }

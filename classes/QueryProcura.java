@@ -9,6 +9,7 @@ public class QueryProcura {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         IndexingEngine engine = new IndexingEngine();
+<<<<<<< HEAD
         HtmlDownloader htmlDownloader = new HtmlDownloader();
         
 
@@ -27,6 +28,44 @@ public class QueryProcura {
             
             if (userInput.equals("q")) {
                 break;
+=======
+
+
+        System.out.print("Enter query: ");
+        String query = scanner.nextLine();
+        scanner.close();
+
+        engine.indexDocuments();
+
+        HashMap<Integer, HashMap<String, Double>> dscores2 = scores.scoresDocs(query);
+        System.out.println("\nDocs score:");
+        System.out.println(dscores2);
+
+        HashMap<String, Integer> n2 = scores.queryTermFreq(query);
+        HashMap<String, Double> qscore2 = scores.queryScore(n2);
+        System.out.println("\nQuery score:");
+        System.out.println(qscore2);
+        
+
+        System.out.println("\nFinal results:");
+        HashMap<Integer, Double> finalscores = scores.similiaridadeFinal(dscores2, qscore2);
+        System.out.println(finalscores);
+        System.out.println("\nFinal results with docnames:");
+        System.out.println(scoresFileNames(finalscores));
+
+        LinkedHashMap<String, Double> sortedMap = sortHashMapDescending(scoresFileNames(finalscores));
+
+        System.out.println("\nSorted final results with docnames:");
+        System.out.println(sortedMap);
+        
+        int i = 0;
+        for (Map.Entry<String, Double> entry : sortedMap.entrySet()) {
+            String docname = entry.getKey();
+            Double score = entry.getValue();
+            if (i < 5 && score > 0.316) {
+                System.out.println("\nDocument: " + docname + " (score= " + score + ")");
+                i += 1;
+>>>>>>> 6bea9b0c42a2b21b72aa0ea176500a602641d97b
             }
             else if (userInput.equals("s")) {
                 

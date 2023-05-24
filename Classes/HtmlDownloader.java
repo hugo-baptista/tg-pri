@@ -28,6 +28,12 @@ public class HtmlDownloader {
             }
 
             in.close();
+<<<<<<< HEAD
+=======
+            // FileWriter writer = new FileWriter(fileName);
+            // writer.write(content.toString());
+            // writer.close();
+>>>>>>> 6bea9b0c42a2b21b72aa0ea176500a602641d97b
 
             links = LinkExtractor.extractLinks(content.toString(), url, keyword);
             System.out.println(links.size() + " links found that contain the keyword.");

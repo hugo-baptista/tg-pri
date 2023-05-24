@@ -17,7 +17,16 @@ import org.jsoup.select.Elements;
 
 public class LinkExtractor {
 
+<<<<<<< HEAD
     public static ArrayList<String> extractLinks(String pageContent, String baseUrl, String keyword) {
+=======
+    public static ArrayList<String> extractLinks(String pageContent, String baseUrl) {
+        Scanner scanner = new Scanner(System.in);
+        // Ler input da keyword a procurar
+        System.out.print("Enter the keyword to limit the search for documents: ");
+        String keyword = scanner.next();
+        scanner.close();
+>>>>>>> 6bea9b0c42a2b21b72aa0ea176500a602641d97b
         ArrayList<String> lista = new ArrayList<>();
         Pattern linkPattern = Pattern.compile("<a\\s+(?:[^>]*?\\s+)?href=([\"'])(.*?)\\1");
         Matcher matcher = linkPattern.matcher(pageContent);

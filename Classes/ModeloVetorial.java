@@ -98,7 +98,10 @@ public class ModeloVetorial {
                     if (provScores.containsKey(docId)) {
                         scoreTerms = provScores.get(docId);
 
-                        double wt = (1 + Math.log10(tf)) * Math.log10((double)N/df);
+                        // ltc
+                        // double wt = (1 + Math.log10(tf)) * Math.log10((double)N/df);
+                        // lnc
+                        double wt = (1 + Math.log10(tf));
                         scoreTerms.put(term, wt);
                         double soma_quadrados = provScores.get(docId).get("soma_quadrados");
                         double sq_atualizada = soma_quadrados + (wt * wt);
@@ -147,7 +150,6 @@ public class ModeloVetorial {
 
     //HashMap(docid, similiridade final de cada doc com a query)
     public HashMap<Integer, Double> similiaridadeFinal (HashMap<Integer, HashMap<String, Double>> dscores, HashMap<String, Double> qscores) {
-        HashMap<Integer, Double> qdscores = new HashMap<>();
         List<Double> s = new ArrayList<>();
         for (Integer key: dscores.keySet()) {
             s.clear();

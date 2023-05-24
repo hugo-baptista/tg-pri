@@ -10,7 +10,6 @@ import com.google.gson.GsonBuilder;
 import java.io.FileReader;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
-import classes.PostingList;
 
 public class Dicionario {
     // dicionário de termos - < Termo: < DocFreq, PostingList > >
@@ -75,20 +74,6 @@ public class Dicionario {
         return set;
     }
 
-    // public ArrayList<Integer> getPositionsList(String term, Integer docId) {
-    //     PostingList postlist = dicionario.getPostingList(term);
-    //     ArrayList<Integer> posList = postlist.getPositionsList(docId);
-    //     return posList;
-    // }
-
-    // public void updatePositionsList(String term, Integer docId, Integer pos) {
-    //     ArrayList<Integer> positions = dicionario.getPositionsList(term, docId);
-    //     positions.add(pos);
-        
-    //     dicionario.put(term);
-    // }
-
-
     @Override
     public String toString() {
         String dictionary_string = new String("Dicionario:\n");
@@ -130,7 +115,7 @@ public class Dicionario {
     }
 
     public void saveToJsonFile() {
-        String filename = "./database/dicionario.json";
+        String filename = "database/dicionario.json";
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(dicionario);
 
@@ -142,7 +127,7 @@ public class Dicionario {
     }
 
     public void readFromJsonFile() {
-        String filename = "./database/dicionario.json";
+        String filename = "database/dicionario.json";
         try (FileReader reader = new FileReader(filename)) {
             Gson gson = new GsonBuilder().create();
             Type type = new TypeToken<HashMap<String, Pair<Integer, PostingList>>>() {}.getType();
@@ -150,6 +135,12 @@ public class Dicionario {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void cleanDicionario() { 
+        Dicionario dic = new Dicionario();
+        dic.saveToJsonFile();
+        HashMapDocs.cleanHashMapDocs();
     }
 
     public boolean containsKey(String key) {

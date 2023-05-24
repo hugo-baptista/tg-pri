@@ -10,7 +10,7 @@ public class Testar {
         ModeloVetorial scores = new ModeloVetorial();
         IndexingEngine engine = new IndexingEngine();
 
-        // Posting List do termo  "be"
+        // // Posting List do termo  "be"
         // PostingList postinglist_be = new PostingList();
         
         // ArrayList<Integer> pos1 = new ArrayList<>(Arrays.asList(7, 18, 33, 72, 86, 231));
@@ -66,10 +66,10 @@ public class Testar {
         System.out.println("\nTestar indexação\n");
         engine.indexDocuments();
 
-        HashMap<Integer, HashMap<String, Double>> dscores2 = scores.scoresDocs("Music set slovak");
-        System.out.println(scores.scoresDocs("Music set slovak"));
+        HashMap<Integer, HashMap<String, Double>> dscores2 = scores.scoresDocs("Torre de Moncorvo");
+        System.out.println(scores.scoresDocs("Torre de Moncorvo"));
 
-        HashMap<String, Integer> n2 = scores.queryTermFreq("Music set slovak");
+        HashMap<String, Integer> n2 = scores.queryTermFreq("Torre de Moncorvo");
         HashMap<String, Double> qscore2 = scores.queryScore(n2);
         System.out.println(scores.queryScore(n2));
 

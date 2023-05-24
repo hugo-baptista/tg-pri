@@ -36,7 +36,7 @@ public class HashMapDocs {
     }
 
     public void saveToJsonFile() {
-        String filename = "./database/hashmapdocs.json";
+        String filename = "database/hashmapdocs.json";
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(documentHashes);
 
@@ -48,7 +48,7 @@ public class HashMapDocs {
     }
 
     public void readFromJsonFile() {
-        String filename = "./database/hashmapdocs.json";
+        String filename = "database/hashmapdocs.json";
         try (FileReader reader = new FileReader(filename)) {
             Gson gson = new GsonBuilder().create();
             Type type = new TypeToken<HashMap<Integer, String>>() {}.getType();
@@ -56,6 +56,11 @@ public class HashMapDocs {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void cleanHashMapDocs() { 
+        HashMapDocs docsHashMap = new HashMapDocs();
+        docsHashMap.saveToJsonFile();
     }
 
     public int size() {

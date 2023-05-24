@@ -7,13 +7,10 @@ import java.util.Scanner;
 
 
 public class HtmlDownloader {
+    Cleaner cleaner = new Cleaner();
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter the main URL where the search for the keyword must start:");
-
-        String url = sc.nextLine();
-        String fileName = url.replaceAll("[^a-zA-Z0-9.-]", "_") + ".html"; // replace invalid characters with underscores
+    public void downloader(String url, String keyword) {
+        
         ArrayList<String> links;
         try {
             URL website = new URL(url);
@@ -31,11 +28,8 @@ public class HtmlDownloader {
             }
 
             in.close();
-            FileWriter writer = new FileWriter(fileName);
-            writer.write(content.toString());
-            writer.close();
 
-            links = LinkExtractor.extractLinks(content.toString(), url);
+            links = LinkExtractor.extractLinks(content.toString(), url, keyword);
             System.out.println(links.size() + " links found that contain the keyword.");
 
             for (String link : links) {
@@ -46,7 +40,7 @@ public class HtmlDownloader {
                 fileConnection.connect();
 
                 BufferedInputStream bis = new BufferedInputStream(fileConnection.getInputStream());
-                String fullpath = "texto" + "\\" + linkName;
+                String fullpath = "database\\Downloads" + "\\" + linkName;
                 FileOutputStream fos = new FileOutputStream(fullpath);
 
                 byte[] buffer = new byte[1024];
@@ -60,9 +54,25 @@ public class HtmlDownloader {
 
                 System.out.println("File " + linkName + " downloaded successfully.");
             }
+            cleaner.htmlCleaner();
+            deleteFilesInFolder("database\\Downloads");
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void deleteFilesInFolder(String folderPath) {
+        File folder = new File(folderPath);
+        if (folder.exists() && folder.isDirectory()) {
+            File[] files = folder.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        file.delete();
+                    }
+                }
+            }
         }
     }
 }

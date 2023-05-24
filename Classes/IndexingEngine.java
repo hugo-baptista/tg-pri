@@ -23,7 +23,7 @@ public class IndexingEngine {
             "these", "they", "this", "to", "was", "will", "with");
     
     public void indexDocuments() {
-        String folderPath = "./database/Documentos";
+        String folderPath = "database/Documentos";
 
         File folder = new File(folderPath);
         File[] files = folder.listFiles();
